@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AgriGuide Crop Advisory"
+description = "A practical crop advisory workspace for farmers and agronomists to manage fields, capture crop conditions, and turn observations into actionable recommendations."
+version = "1.0.0"
+id = "artifacts/agri-guide"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22457
+
+[services.development]
+run = "pnpm --filter @workspace/agri-guide run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/agri-guide", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/agri-guide/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22457"
+BASE_PATH = "/"
